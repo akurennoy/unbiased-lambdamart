@@ -9,12 +9,12 @@ from .calculator import Calculator, MIN_ARG, MAX_ARG
 
 class DatasetWithCalculatorRanks0AndT(lgb.Dataset):
     def __init__(
-        self, max_ndcg_pos, ranks, *args, **kwargs
+        self, max_ndcg_pos, ranks, eta, *args, **kwargs
     ):
         lgb.Dataset.__init__(self, *args, **kwargs)
         self.calculator = Calculator(self.label, self.get_group(), max_ndcg_pos)
         self.ranks0 = (ranks - 1).astype(int)
-        self.t_plus = 1 / np.arange(1, self.calculator.max_rank + 1)
+        self.t_plus = 1 / np.power(np.arange(1, self.calculator.max_rank + 1), eta)
         self.t_minus = np.ones(self.calculator.max_rank)
 
         
