@@ -15,7 +15,7 @@ def test__get_query_boundaries():
     assert(get_query_boundaries([1, 1]) == [0, 1, 2])
 
 
-N_BINS = 1024 * 1024
+N_BINS = 1024 * 1024 * 8
 MIN_ARG = -25
 MAX_ARG = 25
 
