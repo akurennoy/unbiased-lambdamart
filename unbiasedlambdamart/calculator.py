@@ -30,7 +30,6 @@ class Calculator:
             self.max_rank, self.k
         )
         
-        print("Computing inverse_max_dcg-s..")
         self.inverse_max_dcgs = Calculator._fill_inverse_max_dcg_table(
             self.gains, 
             self.query_boundaries,
@@ -38,7 +37,6 @@ class Calculator:
             k
         )
         
-        print("Computing sigmoids and logs..")
         self.sigmoids, self.logs, self.idx_factor = \
             Calculator._fill_sigmoid_and_log_table(
                 N_BINS, 
