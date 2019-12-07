@@ -21,7 +21,16 @@ MAX_ARG = 25
 
 
 class Calculator:
-    def __init__(self, gains, groups, k):       
+    def __init__(
+        self, 
+        gains, 
+        groups, 
+        k, 
+        inverse_max_dcgs=None, 
+        sigmoids=None,
+        logs=None,
+        idx_factor=None
+    ):       
         self.query_boundaries = get_query_boundaries(groups)
         self.gains = gains
         self.k = k
@@ -30,19 +39,26 @@ class Calculator:
             self.max_rank, self.k
         )
         
-        self.inverse_max_dcgs = Calculator._fill_inverse_max_dcg_table(
-            self.gains, 
-            self.query_boundaries,
-            self.discounts,
-            k
-        )
-        
-        self.sigmoids, self.logs, self.idx_factor = \
-            Calculator._fill_sigmoid_and_log_table(
-                N_BINS, 
-                MIN_ARG, 
-                MAX_ARG
+        if inverse_max_dcgs is None:
+            self.inverse_max_dcgs = Calculator._fill_inverse_max_dcg_table(
+                self.gains, 
+                self.query_boundaries,
+                self.discounts,
+                k
             )
+        else:
+            self.inverse_max_dcgs = inverse_max_dcgs
+
+        if sigmoids is None or logs is None or idx_factor is None:
+            self.sigmoids, self.logs, self.idx_factor = \
+                Calculator._fill_sigmoid_and_log_table(
+                    N_BINS, 
+                    MIN_ARG, 
+                    MAX_ARG
+                )
+        else:
+            self.sigmoids, self.logs, self.idx_factor = \
+                sigmoids, logs, idx_factor
 
 
     def get_sigmoid(self, score):

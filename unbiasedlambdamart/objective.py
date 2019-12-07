@@ -9,15 +9,32 @@ from .calculator import Calculator, MIN_ARG, MAX_ARG
 
 class DatasetWithCalculatorRanks0AndT(lgb.Dataset):
     def __init__(
-        self, max_ndcg_pos, ranks, eta, *args, **kwargs
+        self, 
+        max_ndcg_pos, 
+        ranks, 
+        eta, 
+        inverse_max_dcgs=None, 
+        sigmoids=None,
+        logs=None,
+        idx_factor=None,
+        *args, 
+        **kwargs
     ):
         lgb.Dataset.__init__(self, *args, **kwargs)
-        self.calculator = Calculator(self.label, self.get_group(), max_ndcg_pos)
+        self.calculator = Calculator(
+            self.label, 
+            self.get_group(), 
+            max_ndcg_pos,
+            inverse_max_dcgs, 
+            sigmoids,
+            logs,
+            idx_factor
+        )
         self.ranks0 = (ranks - 1).astype(int)
         self.t_plus = 1 / np.power(np.arange(1, self.calculator.max_rank + 1), eta)
         self.t_minus = np.ones(self.calculator.max_rank)
 
-        
+
 def unbiased_lambdarank_objective(preds, dataset):
     """
     Uses global variables t_plus and t_minus.
