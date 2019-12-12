@@ -104,8 +104,8 @@ class Calculator:
         for i in range(len(query_boundaries) - 1):
             g = np.sort(gains[query_boundaries[i]:query_boundaries[i + 1]])[::-1][:k]
             assert(len(discounts) > len(g))
+            assert(sum(g) > 0)
             max_dcg = np.sum(g * discounts[1:(len(g) + 1)])
-            assert(max_dcg > 0)
             inverse_max_dcgs[i] = 1 / max_dcg
             
         return inverse_max_dcgs
