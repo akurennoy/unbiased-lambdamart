@@ -1,6 +1,8 @@
 #!/bin/sh
 
-gcc -c -fPIC argsort.cpp -o argsort.o
-gcc argsort.o -shared -o libargsort.so
+gcc -c argsort.cpp
+ar rcs libargsort.a argsort.o 
 rm argsort.o
 python setup_linux.sh build_ext --inplace
+rm lambdaobj.c libargsort.a
+rm -rf build
