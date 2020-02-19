@@ -2,7 +2,7 @@ import numpy as np
 import lightgbm as lgb
 
 
-from lambdaobj import get_unbiased_gradients_fixed_t, get_unbiased_gradients
+from .lambdaobj import get_unbiased_gradients_fixed_t, get_unbiased_gradients
 from .calculator import Calculator, MIN_ARG, MAX_ARG
 
 
